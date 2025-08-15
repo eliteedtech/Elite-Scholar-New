@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System - Super Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    },
+                    colors: {
+                        primary: {
+                            50: '#EFF6FF',
+                            500: '#3B82F6',
+                            600: '#2563EB',
+                            700: '#1D4ED8'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="h-full bg-gray-50 font-inter">
+    <!-- @COMPONENT: AppLayout [main layout with sidebar and header] -->
+    <div class="min-h-full">
+        <!-- Sidebar -->
+        <!-- @COMPONENT: Sidebar [navigation sidebar] -->
+        <div class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
+            <div class="flex-1 flex flex-col min-h-0 bg-white border-r border-gray-200">
+                <div class="flex items-center h-16 flex-shrink-0 px-4 border-b border-gray-200">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="h-8 w-8 bg-primary-500 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-graduation-cap text-white text-sm"></i>
+                            </div>
+                        </div>
+                        <div class="ml-3">
+                            <h1 class="text-lg font-semibold text-gray-900">SchoolMS</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col overflow-y-auto">
+                    <nav class="flex-1 px-2 py-4 space-y-1">
+                        <!-- @STATE: activeNavItem:string = 'schools' -->
+                        <a href="#" class="bg-primary-50 border-r-2 border-primary-500 text-primary-700 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <i class="fas fa-school text-primary-500 mr-3 text-sm"></i>
+                            Schools
+                        </a>
+                        <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <i class="fas fa-cogs text-gray-400 mr-3 text-sm"></i>
+                            System Features
+                        </a>
+                        <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <i class="fas fa-chart-bar text-gray-400 mr-3 text-sm"></i>
+                            Analytics
+                        </a>
+                        <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <i class="fas fa-users text-gray-400 mr-3 text-sm"></i>
+                            User Management
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: Sidebar -->
+
+        <!-- Main Content -->
+        <div class="md:pl-64 flex flex-col flex-1">
+            <!-- Header -->
+            <!-- @COMPONENT: Header [top navigation bar] -->
+            <div class="sticky top-0 z-10 md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-gray-50">
+                <button type="button" class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            <main class="flex-1">
+                <div class="py-6">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                        <!-- Page Header -->
+                        <!-- @COMPONENT: PageHeader [page title and actions] -->
+                        <div class="md:flex md:items-center md:justify-between">
+                            <div class="flex-1 min-w-0">
+                                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Schools Management</h2>
+                                <p class="mt-1 text-sm text-gray-500">Manage schools, branches, and features across your platform</p>
+                            </div>
+                            <div class="mt-4 flex md:mt-0 md:ml-4">
+                                <button type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500" data-event="click:openCreateSchoolModal">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Create School
+                                </button>
+                            </div>
+                        </div>
+                        <!-- @END_COMPONENT: PageHeader -->
+
+                        <!-- Filters and Stats -->
+                        <!-- @COMPONENT: FiltersAndStats [filter controls and statistics] -->
+                        <div class="mt-6">
+                            <div class="bg-white rounded-lg shadow">
+                                <div class="px-6 py-4 border-b border-gray-200">
+                                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                                        <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                                            <!-- Search -->
+                                            <div class="relative">
+                                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                    <i class="fas fa-search text-gray-400"></i>
+                                                </div>
+                                                <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm" placeholder="Search schools..." data-bind="searchQuery">
+                                            </div>
+                                            
+                                            <!-- School Type Filter -->
+                                            <select class="block w-full sm:w-auto px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm" data-bind="typeFilter">
+                                                <option value="">All Types</option>
+                                                <option value="K12">K12 Schools</option>
+                                                <option value="NIGERIAN">Nigerian Curriculum</option>
+                                            </select>
+
+                                            <!-- Status Filter -->
+                                            <select class="block w-full sm:w-auto px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm" data-bind="statusFilter">
+                                                <option value="">All Status</option>
+                                                <option value="ACTIVE">Active</option>
+                                                <option value="DISABLED">Disabled</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Stats -->
+                                        <div class="mt-4 sm:mt-0 flex items-center space-x-6">
+                                            <div class="text-sm text-gray-500">
+                                                Total: <span class="font-medium text-gray-900" data-bind="totalSchools">247</span>
+                                            </div>
+                                            <div class="text-sm text-gray-500">
+                                                Active: <span class="font-medium text-green-600" data-bind="activeSchools">231</span>
+                                            </div>
+                                            <div class="text-sm text-gray-500">
+                                                Disabled: <span class="font-medium text-red-600" data-bind="disabledSchools">16</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- @END_COMPONENT: FiltersAndStats -->
+
+                        <!-- Schools Table -->
+                        <!-- @COMPONENT: SchoolsTable [main data table] -->
+                        <div class="mt-6">
+                            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type & Status</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Main Branch</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Features</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                                                <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                            <!-- @MAP: schools.map(school => ( -->
+                                            <tr class="hover:bg-gray-50" data-mock="true">
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <div class="flex-shrink-0 h-10 w-10">
+                                                            <!-- School logo placeholder showing a modern academic building -->
+                                                            <img class="h-10 w-10 rounded-full object-cover" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400" alt="Greenfield Academy logo" data-bind="school.logoUrl">
+                                                        </div>
+                                                        <div class="ml-4">
+                                                            <div class="text-sm font-medium text-gray-900" data-bind="school.name">Greenfield Academy</div>
+                                                            <div class="text-sm text-gray-500">
+                                                                <span data-bind="school.shortName">greenfield-academy</span> • 
+                                                                <span data-bind="school.abbreviation">GFA</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex flex-col space-y-1">
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800" data-bind="school.type">K12</span>
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800" data-bind="school.status">Active</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm text-gray-900" data-bind="school.mainBranch.name">Main Campus</div>
+                                                    <div class="text-sm text-gray-500" data-bind="school.state + ', ' + school.lga">Lagos, Ikeja</div>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <div class="flex flex-wrap gap-2">
+                                                        <!-- @MAP: school.enabledFeatures.map(feature => ( -->
+                                                        <div class="feature-toggle-container" data-mock="true">
+                                                            <label class="inline-flex items-center">
+                                                                <input type="checkbox" class="sr-only feature-toggle" checked data-feature="CBT" data-school-id="1" data-event="change:toggleFeature">
+                                                                <div class="relative">
+                                                                    <div class="block bg-green-500 w-8 h-4 rounded-full shadow-inner"></div>
+                                                                    <div class="absolute inset-y-0 left-0 bg-white w-4 h-4 rounded-full shadow flex items-center justify-center transform translate-x-4 transition-transform">
+                                                                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="ml-2 text-xs font-medium text-gray-700">CBT</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="feature-toggle-container" data-mock="true">
+                                                            <label class="inline-flex items-center">
+                                                                <input type="checkbox" class="sr-only feature-toggle" checked data-feature="ATTENDANCE" data-school-id="1">
+                                                                <div class="relative">
+                                                                    <div class="block bg-green-500 w-8 h-4 rounded-full shadow-inner"></div>
+                                                                    <div class="absolute inset-y-0 left-0 bg-white w-4 h-4 rounded-full shadow flex items-center justify-center transform translate-x-4 transition-transform">
+                                                                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="ml-2 text-xs font-medium text-gray-700">Attendance</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="feature-toggle-container" data-mock="true">
+                                                            <label class="inline-flex items-center">
+                                                                <input type="checkbox" class="sr-only feature-toggle" data-feature="E_CLASSROOM" data-school-id="1">
+                                                                <div class="relative">
+                                                                    <div class="block bg-gray-300 w-8 h-4 rounded-full shadow-inner"></div>
+                                                                    <div class="absolute inset-y-0 left-0 bg-white w-4 h-4 rounded-full shadow flex items-center justify-center transition-transform">
+                                                                        <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="ml-2 text-xs font-medium text-gray-700">E-Classroom</span>
+                                                            </label>
+                                                        </div>
+                                                        <!-- @END_MAP )) -->
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" data-bind="formatDate(school.createdAt)">
+                                                    Jan 15, 2024
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div class="flex items-center space-x-2">
+                                                        <button type="button" class="text-primary-600 hover:text-primary-900" data-event="click:viewSchoolDetails">
+                                                            <i class="fas fa-eye"></i>
+                                                        </button>
+                                                        <button type="button" class="text-indigo-600 hover:text-indigo-900" data-event="click:editSchool">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="text-gray-600 hover:text-gray-900" data-event="click:manageBranches">
+                                                            <i class="fas fa-code-branch"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Additional sample rows -->
+                                            <tr class="hover:bg-gray-50" data-mock="true">
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <div class="flex-shrink-0 h-10 w-10">
+                                                            <!-- Modern school building with contemporary architecture -->
+                                                            <img class="h-10 w-10 rounded-full object-cover" src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400" alt="Victory International School logo">
+                                                        </div>
+                                                        <div class="ml-4">
+                                                            <div class="text-sm font-medium text-gray-900">Victory International School</div>
+                                                            <div class="text-sm text-gray-500">victory-intl • VIS</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex flex-col space-y-1">
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">Nigerian</span>
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm text-gray-900">Victory Campus</div>
+                                                    <div class="text-sm text-gray-500">Abuja, Wuse</div>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <div class="flex flex-wrap gap-2">
+                                                        <div class="feature-toggle-container" data-mock="true">
+                                                            <label class="inline-flex items-center">
+                                                                <input type="checkbox" class="sr-only feature-toggle" checked>
+                                                                <div class="relative">
+                                                                    <div class="block bg-green-500 w-8 h-4 rounded-full shadow-inner"></div>
+                                                                    <div class="absolute inset-y-0 left-0 bg-white w-4 h-4 rounded-full shadow flex items-center justify-center transform translate-x-4 transition-transform">
+                                                                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="ml-2 text-xs font-medium text-gray-700">ISLAMIYYA</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="feature-toggle-container" data-mock="true">
+                                                            <label class="inline-flex items-center">
+                                                                <input type="checkbox" class="sr-only feature-toggle" checked>
+                                                                <div class="relative">
+                                                                    <div class="block bg-green-500 w-8 h-4 rounded-full shadow-inner"></div>
+                                                                    <div class="absolute inset-y-0 left-0 bg-white w-4 h-4 rounded-full shadow flex items-center justify-center transform translate-x-4 transition-transform">
+                                                                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="ml-2 text-xs font-medium text-gray-700">TAHFIZ</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="feature-toggle-container" data-mock="true">
+                                                            <label class="inline-flex items-center">
+                                                                <input type="checkbox" class="sr-only feature-toggle">
+                                                                <div class="relative">
+                                                                    <div class="block bg-gray-300 w-8 h-4 rounded-full shadow-inner"></div>
+                                                                    <div class="absolute inset-y-0 left-0 bg-white w-4 h-4 rounded-full shadow flex items-center justify-center transition-transform">
+                                                                        <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="ml-2 text-xs font-medium text-gray-700">CBT</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Dec 8, 2023</td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div class="flex items-center space-x-2">
+                                                        <button type="button" class="text-primary-600 hover:text-primary-900">
+                                                            <i class="fas fa-eye"></i>
+                                                        </button>
+                                                        <button type="button" class="text-indigo-600 hover:text-indigo-900">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="text-gray-600 hover:text-gray-900">
+                                                            <i class="fas fa-code-branch"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="hover:bg-gray-50" data-mock="true">
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <div class="flex-shrink-0 h-10 w-10">
+                                                            <!-- Classic educational institution building with columns -->
+                                                            <img class="h-10 w-10 rounded-full object-cover" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400" alt="Royal Heights Academy logo">
+                                                        </div>
+                                                        <div class="ml-4">
+                                                            <div class="text-sm font-medium text-gray-900">Royal Heights Academy</div>
+                                                            <div class="text-sm text-gray-500">royal-heights • RHA</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex flex-col space-y-1">
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">K12</span>
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Disabled</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm text-gray-900">Central Campus</div>
+                                                    <div class="text-sm text-gray-500">Rivers, Port Harcourt</div>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <div class="flex flex-wrap gap-2">
+                                                        <div class="feature-toggle-container" data-mock="true">
+                                                            <label class="inline-flex items-center">
+                                                                <input type="checkbox" class="sr-only feature-toggle">
+                                                                <div class="relative">
+                                                                    <div class="block bg-gray-300 w-8 h-4 rounded-full shadow-inner"></div>
+                                                                    <div class="absolute inset-y-0 left-0 bg-white w-4 h-4 rounded-full shadow flex items-center justify-center transition-transform">
+                                                                        <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="ml-2 text-xs font-medium text-gray-500">All Features Disabled</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Nov 22, 2023</td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div class="flex items-center space-x-2">
+                                                        <button type="button" class="text-primary-600 hover:text-primary-900">
+                                                            <i class="fas fa-eye"></i>
+                                                        </button>
+                                                        <button type="button" class="text-green-600 hover:text-green-900" title="Enable School">
+                                                            <i class="fas fa-play"></i>
+                                                        </button>
+                                                        <button type="button" class="text-indigo-600 hover:text-indigo-900">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!-- @END_MAP )) -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- @END_COMPONENT: SchoolsTable -->
+
+                        <!-- Pagination -->
+                        <!-- @COMPONENT: Pagination [table pagination controls] -->
+                        <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 mt-6 rounded-lg shadow">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Previous</button>
+                                <button class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Next</button>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700">
+                                        Showing <span class="font-medium" data-bind="currentPageStart">1</span> to <span class="font-medium" data-bind="currentPageEnd">10</span> of
+                                        <span class="font-medium" data-bind="totalRecords">247</span> results
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <button class="bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</button>
+                                        <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</button>
+                                        <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</button>
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+                                        <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">25</button>
+                                        <button class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- @END_COMPONENT: Pagination -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: AppLayout -->
+
+    <!-- Create School Modal -->
+    <!-- @COMPONENT: CreateSchoolModal [modal for creating new schools] -->
+    <!-- @STATE: showCreateModal:boolean = false -->
+    <div class="fixed inset-0 z-50 overflow-y-auto hidden" id="createSchoolModal" data-implementation="Toggle visibility based on showCreateModal state">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <form>
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">Create New School</h3>
+                                
+                                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                    <!-- Basic Information -->
+                                    <div class="col-span-2">
+                                        <h4 class="text-md font-medium text-gray-900 mb-4 border-b pb-2">Basic Information</h4>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">School Name *</label>
+                                        <input type="text" required class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="e.g., Greenfield Academy">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Short Name (URL) *</label>
+                                        <input type="text" required class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="e.g., greenfield-academy">
+                                        <p class="mt-1 text-xs text-gray-500">Used for URLs: greenfield-academy.schoolms.com</p>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Abbreviation</label>
+                                        <input type="text" class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="e.g., GFA">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">School Type *</label>
+                                        <select required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                            <option value="">Select Type</option>
+                                            <option value="K12">K12 (Grade 1-12)</option>
+                                            <option value="NIGERIAN">Nigerian Curriculum</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <label class="block text-sm font-medium text-gray-700">Motto</label>
+                                        <input type="text" class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="e.g., Excellence in Education">
+                                    </div>
+
+                                    <!-- Location -->
+                                    <div class="col-span-2">
+                                        <h4 class="text-md font-medium text-gray-900 mb-4 border-b pb-2 mt-6">Location Information</h4>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">State *</label>
+                                        <select required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                            <option value="">Select State</option>
+                                            <option value="Lagos">Lagos</option>
+                                            <option value="Abuja">FCT Abuja</option>
+                                            <option value="Rivers">Rivers</option>
+                                            <option value="Ogun">Ogun</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">LGA *</label>
+                                        <select required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                            <option value="">Select LGA</option>
+                                            <option value="Ikeja">Ikeja</option>
+                                            <option value="Victoria Island">Victoria Island</option>
+                                            <option value="Lekki">Lekki</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <label class="block text-sm font-medium text-gray-700">Address</label>
+                                        <textarea rows="2" class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Full school address"></textarea>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Email</label>
+                                        <input type="email" class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="info@school.edu">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Phone Numbers</label>
+                                        <input type="text" class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="e.g., +234 123 456 7890, +234 987 654 3210">
+                                        <p class="mt-1 text-xs text-gray-500">Separate multiple numbers with commas</p>
+                                    </div>
+
+                                    <!-- Logo Upload -->
+                                    <div class="col-span-2">
+                                        <h4 class="text-md font-medium text-gray-900 mb-4 border-b pb-2 mt-6">School Logo</h4>
+                                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                            <div class="space-y-1 text-center">
+                                                <i class="fas fa-cloud-upload-alt text-gray-400 text-3xl"></i>
+                                                <div class="flex text-sm text-gray-600">
+                                                    <label class="relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
+                                                        <span>Upload a file</span>
+                                                        <input type="file" class="sr-only" accept="image/*" data-implementation="Handle file upload to Cloudinary">
+                                                    </label>
+                                                    <p class="pl-1">or drag and drop</p>
+                                                </div>
+                                                <p class="text-xs text-gray-500">PNG, JPG, SVG up to 4MB</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- School Admin -->
+                                    <div class="col-span-2">
+                                        <h4 class="text-md font-medium text-gray-900 mb-4 border-b pb-2 mt-6">School Administrator</h4>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Admin Name *</label>
+                                        <input type="text" required class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="John Doe">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Admin Email *</label>
+                                        <input type="email" required class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="admin@school.edu">
+                                        <p class="mt-1 text-xs text-gray-500">Default password: 123456 (must change on first login)</p>
+                                    </div>
+
+                                    <!-- Initial Features -->
+                                    <div class="col-span-2">
+                                        <h4 class="text-md font-medium text-gray-900 mb-4 border-b pb-2 mt-6">Initial Features</h4>
+                                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                            <!-- @MAP: availableFeatures.map(feature => ( -->
+                                            <label class="inline-flex items-center" data-mock="true">
+                                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50" checked>
+                                                <span class="ml-2 text-sm text-gray-900">CBT</span>
+                                            </label>
+                                            <label class="inline-flex items-center" data-mock="true">
+                                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50" checked>
+                                                <span class="ml-2 text-sm text-gray-900">Attendance</span>
+                                            </label>
+                                            <label class="inline-flex items-center" data-mock="true">
+                                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
+                                                <span class="ml-2 text-sm text-gray-900">E-Classroom</span>
+                                            </label>
+                                            <label class="inline-flex items-center" data-mock="true">
+                                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
+                                                <span class="ml-2 text-sm text-gray-900">School Master</span>
+                                            </label>
+                                            <label class="inline-flex items-center" data-mock="true">
+                                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
+                                                <span class="ml-2 text-sm text-gray-900">Express Finance</span>
+                                            </label>
+                                            <label class="inline-flex items-center" data-mock="true">
+                                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
+                                                <span class="ml-2 text-sm text-gray-900">Result Station</span>
+                                            </label>
+                                            <label class="inline-flex items-center" data-mock="true">
+                                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
+                                                <span class="ml-2 text-sm text-gray-900">Islamiyya</span>
+                                            </label>
+                                            <label class="inline-flex items-center" data-mock="true">
+                                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
+                                                <span class="ml-2 text-sm text-gray-900">Tahfiz</span>
+                                            </label>
+                                            <!-- @END_MAP )) -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-600 text-base font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:ml-3 sm:w-auto sm:text-sm" data-event="click:createSchool">
+                            <i class="fas fa-plus mr-2"></i>
+                            Create School
+                        </button>
+                        <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" data-event="click:closeModal">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: CreateSchoolModal -->
+
+    <!-- Success Toast -->
+    <!-- @COMPONENT: Toast [notification toast] -->
+    <div class="fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end z-50">
+        <div class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden hidden" id="successToast" data-implementation="Show/hide based on toast state">
+            <div class="p-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                    </div>
+                    <div class="ml-3 w-0 flex-1 pt-0.5">
+                        <p class="text-sm font-medium text-gray-900">School created successfully!</p>
+                        <p class="mt-1 text-sm text-gray-500">The school admin has been notified.</p>
+                    </div>
+                    <div class="ml-4 flex-shrink-0 flex">
+                        <button class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: Toast -->
+
+    <script>
+        // TODO: Implement React Query for data fetching and caching
+        // TODO: Implement Zustand for local UI state management
+        // TODO: Implement optimistic updates for feature toggles
+        // TODO: Implement form validation and submission
+        // TODO: Implement modal state management
+        // TODO: Implement file upload to Cloudinary
+
+        (function() {
+            // Demo functionality for feature toggles
+            document.addEventListener('DOMContentLoaded', function() {
+                const featureToggles = document.querySelectorAll('.feature-toggle');
+                
+                featureToggles.forEach(toggle => {
+                    toggle.addEventListener('change', function() {
+                        const toggleContainer = this.closest('.feature-toggle-container');
+                        const toggleSwitch = toggleContainer.querySelector('.relative > div:first-child');
+                        const toggleKnob = toggleContainer.querySelector('.relative > div:last-child');
+                        const label = toggleContainer.querySelector('span');
+                        
+                        if (this.checked) {
+                            toggleSwitch.classList.remove('bg-gray-300');
+                            toggleSwitch.classList.add('bg-green-500');
+                            toggleKnob.classList.add('translate-x-4');
+                            toggleKnob.querySelector('div').classList.remove('bg-gray-400');
+                            toggleKnob.querySelector('div').classList.add('bg-green-500');
+                            label.classList.remove('text-gray-500');
+                            label.classList.add('text-gray-700');
+                        } else {
+                            toggleSwitch.classList.remove('bg-green-500');
+                            toggleSwitch.classList.add('bg-gray-300');
+                            toggleKnob.classList.remove('translate-x-4');
+                            toggleKnob.querySelector('div').classList.remove('bg-green-500');
+                            toggleKnob.querySelector('div').classList.add('bg-gray-400');
+                            label.classList.remove('text-gray-700');
+                            label.classList.add('text-gray-500');
+                        }
+                        
+                        // TODO: Make API call to toggle feature
+                        console.log(`Feature ${this.dataset.feature} ${this.checked ? 'enabled' : 'disabled'} for school ${this.dataset.schoolId}`);
+                    });
+                });
+
+                // Modal functionality
+                const createSchoolBtn = document.querySelector('[data-event="click:openCreateSchoolModal"]');
+                const modal = document.getElementById('createSchoolModal');
+                const closeModalBtn = document.querySelector('[data-event="click:closeModal"]');
+
+                if (createSchoolBtn && modal) {
+                    createSchoolBtn.addEventListener('click', function() {
+                        modal.classList.remove('hidden');
+                        document.body.classList.add('overflow-hidden');
+                    });
+                }
+
+                if (closeModalBtn && modal) {
+                    closeModalBtn.addEventListener('click', function() {
+                        modal.classList.add('hidden');
+                        document.body.classList.remove('overflow-hidden');
+                    });
+                }
+
+                // Close modal on backdrop click
+                if (modal) {
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            this.classList.add('hidden');
+                            document.body.classList.remove('overflow-hidden');
+                        }
+                    });
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

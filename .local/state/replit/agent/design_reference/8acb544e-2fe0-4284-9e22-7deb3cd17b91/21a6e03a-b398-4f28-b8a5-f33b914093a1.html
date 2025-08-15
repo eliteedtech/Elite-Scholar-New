@@ -1,0 +1,809 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Scholar - Super Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-slate-50 font-sans">
+    <!-- @COMPONENT: Layout Container -->
+    <div class="min-h-screen flex">
+        <!-- @COMPONENT: Sidebar Navigation -->
+        <nav class="bg-white shadow-lg w-64 min-h-screen">
+            <div class="p-6">
+                <!-- Elite Scholar Logo -->
+                <div class="flex items-center space-x-3 mb-8">
+                    <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900">Elite Scholar</h1>
+                        <p class="text-xs text-slate-500">Super Admin</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Menu -->
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 bg-primary-50 text-primary-700 rounded-lg">
+                            <i class="fas fa-school w-5"></i>
+                            <span class="font-medium">Schools</span>
+                            <span class="ml-auto bg-primary-100 text-primary-600 text-xs px-2 py-1 rounded-full" data-bind="schoolsCount">127</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-lg">
+                            <i class="fas fa-file-invoice-dollar w-5"></i>
+                            <span class="font-medium">Invoices</span>
+                            <span class="ml-auto bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-full" data-bind="invoicesCount">42</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-lg">
+                            <i class="fas fa-cogs w-5"></i>
+                            <span class="font-medium">Features</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-lg">
+                            <i class="fas fa-chart-bar w-5"></i>
+                            <span class="font-medium">Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-lg">
+                            <i class="fas fa-users w-5"></i>
+                            <span class="font-medium">Users</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Attribution -->
+                <div class="mt-8 pt-8 border-t border-slate-200">
+                    <p class="text-xs text-slate-400 text-center">
+                        Powered by<br>
+                        <span class="font-semibold text-slate-600">Elite Edu Tech</span>
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <!-- @END_COMPONENT: Sidebar Navigation -->
+
+        <!-- @COMPONENT: Main Content Area -->
+        <main class="flex-1 overflow-auto">
+            <!-- @COMPONENT: Header -->
+            <header class="bg-white shadow-sm border-b border-slate-200 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900">School Management</h2>
+                        <p class="text-slate-600">Manage schools, features, and billing across your platform</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <!-- Search -->
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" placeholder="Search schools..." class="pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        </div>
+                        <!-- User Menu -->
+                        <div class="flex items-center space-x-3">
+                            <button class="relative p-2 text-slate-400 hover:text-slate-600">
+                                <i class="fas fa-bell"></i>
+                                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                            </button>
+                            <div class="flex items-center space-x-3">
+                                <!-- User profile placeholder image -->
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&h=150" alt="Admin Profile" class="w-10 h-10 rounded-full object-cover">
+                                <div>
+                                    <p class="font-medium text-slate-900" data-bind="admin.name">Super Admin</p>
+                                    <p class="text-sm text-slate-500">admin@elitescholar.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- @END_COMPONENT: Header -->
+
+            <!-- @COMPONENT: Dashboard Content -->
+            <div class="p-6">
+                <!-- @COMPONENT: Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-slate-600 text-sm font-medium">Total Schools</p>
+                                <p class="text-3xl font-bold text-slate-900" data-bind="stats.totalSchools">127</p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-school text-blue-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-green-600 text-sm font-medium">+12% from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-slate-600 text-sm font-medium">Active Subscriptions</p>
+                                <p class="text-3xl font-bold text-slate-900" data-bind="stats.activeSubscriptions">98</p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-green-600 text-sm font-medium">96.7% paid on time</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-slate-600 text-sm font-medium">Pending Invoices</p>
+                                <p class="text-3xl font-bold text-slate-900" data-bind="stats.pendingInvoices">24</p>
+                            </div>
+                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-yellow-600 text-sm font-medium">₦2.4M pending</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-slate-600 text-sm font-medium">Monthly Revenue</p>
+                                <p class="text-3xl font-bold text-slate-900" data-bind="stats.monthlyRevenue">₦8.2M</p>
+                            </div>
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-chart-line text-purple-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-green-600 text-sm font-medium">+8.2% from last month</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: Stats Cards -->
+
+                <!-- @COMPONENT: Schools Management Section -->
+                <div class="bg-white rounded-xl shadow-sm">
+                    <!-- Table Header with Controls -->
+                    <div class="px-6 py-4 border-b border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-slate-900">Schools</h3>
+                            <div class="flex items-center space-x-3">
+                                <!-- Filters -->
+                                <div class="flex items-center space-x-2">
+                                    <label class="text-sm text-slate-600">Type:</label>
+                                    <select class="border border-slate-300 rounded-md px-3 py-1 text-sm">
+                                        <option>All Types</option>
+                                        <option>K12</option>
+                                        <option>NIGERIAN</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <label class="text-sm text-slate-600">Status:</label>
+                                    <select class="border border-slate-300 rounded-md px-3 py-1 text-sm">
+                                        <option>All Status</option>
+                                        <option>Active</option>
+                                        <option>Disabled</option>
+                                    </select>
+                                </div>
+                                <!-- Create School Button -->
+                                <button class="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-700 flex items-center space-x-2" data-event="click:openCreateSchoolModal">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Create School</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schools Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">School</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Payment</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Features</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-slate-200">
+                                <!-- @MAP: schools.map(school => ( -->
+                                <tr class="hover:bg-slate-50" data-mock="true">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <!-- School logo placeholder -->
+                                            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&h=150" alt="Grace Academy Logo" class="w-10 h-10 rounded-lg object-cover">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-slate-900" data-bind="school.name">Grace Academy</div>
+                                                <div class="text-sm text-slate-500" data-bind="school.shortName">grace-academy</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800" data-bind="school.type">NIGERIAN</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800" data-bind="school.status">ACTIVE</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800" data-bind="school.paymentStatus">PAID</span>
+                                        <div class="text-xs text-slate-500 mt-1">Due: Feb 2024</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-700">CBT</span>
+                                            <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-700">ATTENDANCE</span>
+                                            <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">+3</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <div class="flex items-center space-x-2">
+                                            <button class="text-primary-600 hover:text-primary-900" data-event="click:viewSchool">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-slate-600 hover:text-slate-900" data-event="click:editSchool">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-green-600 hover:text-green-900" data-event="click:createInvoice">
+                                                <i class="fas fa-file-invoice"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="hover:bg-slate-50" data-mock="true">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <!-- School logo placeholder -->
+                                            <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&h=150" alt="Sunrise College Logo" class="w-10 h-10 rounded-lg object-cover">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-slate-900">Sunrise College</div>
+                                                <div class="text-sm text-slate-500">sunrise-college</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">K12</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">ACTIVE</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">PENDING</span>
+                                        <div class="text-xs text-slate-500 mt-1">Due: Jan 2024</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-700">CBT</span>
+                                            <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-700">E_CLASSROOM</span>
+                                            <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">+4</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <div class="flex items-center space-x-2">
+                                            <button class="text-primary-600 hover:text-primary-900">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-slate-600 hover:text-slate-900">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-green-600 hover:text-green-900">
+                                                <i class="fas fa-file-invoice"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="hover:bg-slate-50" data-mock="true">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <!-- School logo placeholder -->
+                                            <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&h=150" alt="Future Leaders School Logo" class="w-10 h-10 rounded-lg object-cover">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-slate-900">Future Leaders School</div>
+                                                <div class="text-sm text-slate-500">future-leaders</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">NIGERIAN</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">DISABLED</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">UNPAID</span>
+                                        <div class="text-xs text-red-500 mt-1">Overdue: 14 days</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-red-100 text-red-700">ACCESS BLOCKED</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <div class="flex items-center space-x-2">
+                                            <button class="text-primary-600 hover:text-primary-900">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-slate-600 hover:text-slate-900">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-600 hover:text-red-900">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- @END_MAP )) -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="px-6 py-4 border-t border-slate-200 flex items-center justify-between">
+                        <div class="text-sm text-slate-700">
+                            Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">127</span> results
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="px-3 py-2 text-sm font-medium text-slate-500 bg-white border border-slate-300 rounded-md hover:bg-slate-50">Previous</button>
+                            <button class="px-3 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md">1</button>
+                            <button class="px-3 py-2 text-sm font-medium text-slate-500 bg-white border border-slate-300 rounded-md hover:bg-slate-50">2</button>
+                            <button class="px-3 py-2 text-sm font-medium text-slate-500 bg-white border border-slate-300 rounded-md hover:bg-slate-50">3</button>
+                            <button class="px-3 py-2 text-sm font-medium text-slate-500 bg-white border border-slate-300 rounded-md hover:bg-slate-50">Next</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: Schools Management Section -->
+            </div>
+            <!-- @END_COMPONENT: Dashboard Content -->
+        </main>
+        <!-- @END_COMPONENT: Main Content Area -->
+    </div>
+    <!-- @END_COMPONENT: Layout Container -->
+
+    <!-- @COMPONENT: Create School Modal -->
+    <div id="createSchoolModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-slate-900">Create New School</h3>
+                    <button class="text-slate-400 hover:text-slate-600" data-event="click:closeModal">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Content -->
+                <form class="p-6 space-y-6" data-implementation="Handle school creation with file upload and validation">
+                    <!-- School Basic Information -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">School Name *</label>
+                            <input type="text" placeholder="Grace Academy International" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Short Name (URL) *</label>
+                            <input type="text" placeholder="grace-academy" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" required>
+                            <p class="text-xs text-slate-500 mt-1">Will be used for: grace-academy.elitescholar.com</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Abbreviation</label>
+                            <input type="text" placeholder="GAI" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">School Type *</label>
+                            <select class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" required>
+                                <option value="">Select Type</option>
+                                <option value="K12">K12 (Grade 1-12)</option>
+                                <option value="NIGERIAN">Nigerian Curriculum</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Email *</label>
+                            <input type="email" placeholder="info@graceacademy.edu.ng" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Phone Numbers</label>
+                            <input type="text" placeholder="+234 803 123 4567, +234 805 987 6543" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">State</label>
+                            <input type="text" placeholder="Lagos" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">LGA</label>
+                            <input type="text" placeholder="Ikeja" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <!-- Address and Logo -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Address</label>
+                            <textarea placeholder="123 Education Avenue, Victoria Island..." rows="3" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">School Logo</label>
+                            <div class="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-slate-400 mb-2"></i>
+                                <p class="text-sm text-slate-600">Drop logo here or <span class="text-primary-600 font-medium">browse</span></p>
+                                <p class="text-xs text-slate-500 mt-1">PNG, JPG up to 4MB</p>
+                                <input type="file" class="hidden" accept="image/*" data-implementation="Handle file upload to Cloudinary">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Motto -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">School Motto</label>
+                        <input type="text" placeholder="Excellence in Education" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    </div>
+
+                    <!-- School Admin Information -->
+                    <div class="border-t border-slate-200 pt-6">
+                        <h4 class="text-lg font-medium text-slate-900 mb-4">School Administrator</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Admin Name *</label>
+                                <input type="text" placeholder="John Doe" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Admin Email *</label>
+                                <input type="email" placeholder="admin@graceacademy.edu.ng" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Default Password</label>
+                                <input type="text" placeholder="123456" value="123456" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                <p class="text-xs text-slate-500 mt-1">Admin will be forced to change password on first login</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Initial Features -->
+                    <div class="border-t border-slate-200 pt-6">
+                        <h4 class="text-lg font-medium text-slate-900 mb-4">Initial Features</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <!-- @FUNCTIONALITY: Feature toggles should be dynamically loaded from features API -->
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-300 rounded" checked>
+                                <span class="text-sm font-medium text-slate-700">CBT (Computer Based Testing)</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-300 rounded">
+                                <span class="text-sm font-medium text-slate-700">E-Classroom</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-300 rounded" checked>
+                                <span class="text-sm font-medium text-slate-700">Attendance Management</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-300 rounded">
+                                <span class="text-sm font-medium text-slate-700">School Master</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-300 rounded">
+                                <span class="text-sm font-medium text-slate-700">Express Finance</span>
+                            </label>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-300 rounded" checked>
+                                <span class="text-sm font-medium text-slate-700">Result Station</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Branches -->
+                    <div class="border-t border-slate-200 pt-6">
+                        <h4 class="text-lg font-medium text-slate-900 mb-4">School Branches</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg">
+                                <input type="text" placeholder="Main Branch" value="Main Branch" class="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                <span class="text-sm text-green-600 font-medium">Main</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 border border-slate-200 rounded-lg">
+                                <input type="text" placeholder="Branch Name" class="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                <button type="button" class="text-red-600 hover:text-red-800">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <button type="button" class="text-primary-600 hover:text-primary-800 text-sm font-medium flex items-center space-x-2">
+                                <i class="fas fa-plus"></i>
+                                <span>Add Another Branch</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal Actions -->
+                    <div class="border-t border-slate-200 pt-6 flex items-center justify-end space-x-3">
+                        <button type="button" class="px-4 py-2 text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50" data-event="click:closeModal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium" data-event="click:createSchool">
+                            Create School
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: Create School Modal -->
+
+    <!-- @COMPONENT: Invoice Management Modal -->
+    <div id="invoiceModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-slate-900">Create Invoice</h3>
+                    <button class="text-slate-400 hover:text-slate-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Content -->
+                <form class="p-6 space-y-6">
+                    <!-- Invoice Header -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">School</label>
+                            <select class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" required>
+                                <option value="">Select School</option>
+                                <option value="grace-academy">Grace Academy</option>
+                                <option value="sunrise-college">Sunrise College</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Term/Period</label>
+                            <select class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" required>
+                                <option value="">Select Term</option>
+                                <option value="first-term-2024">First Term 2024</option>
+                                <option value="second-term-2024">Second Term 2024</option>
+                                <option value="third-term-2024">Third Term 2024</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Due Date</label>
+                            <input type="date" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Invoice Number</label>
+                            <input type="text" placeholder="INV-2024-001" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Invoice Items -->
+                    <div>
+                        <h4 class="text-lg font-medium text-slate-900 mb-4">Invoice Items</h4>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-12 gap-3 items-center">
+                                <div class="col-span-5">
+                                    <input type="text" placeholder="Platform Subscription Fee" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                </div>
+                                <div class="col-span-2">
+                                    <input type="number" placeholder="1" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                </div>
+                                <div class="col-span-3">
+                                    <input type="number" placeholder="150000" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                </div>
+                                <div class="col-span-2 text-right font-medium">
+                                    ₦150,000
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-3 items-center">
+                                <div class="col-span-5">
+                                    <input type="text" placeholder="CBT Module" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                </div>
+                                <div class="col-span-2">
+                                    <input type="number" placeholder="1" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                </div>
+                                <div class="col-span-3">
+                                    <input type="number" placeholder="50000" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                </div>
+                                <div class="col-span-2 text-right font-medium">
+                                    ₦50,000
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="mt-3 text-primary-600 hover:text-primary-800 text-sm font-medium flex items-center space-x-2">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Line Item</span>
+                        </button>
+                    </div>
+
+                    <!-- Invoice Summary -->
+                    <div class="border-t border-slate-200 pt-6">
+                        <div class="bg-slate-50 rounded-lg p-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-slate-600">Subtotal:</span>
+                                <span class="font-medium">₦200,000</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-slate-600">Tax (7.5%):</span>
+                                <span class="font-medium">₦15,000</span>
+                            </div>
+                            <div class="border-t border-slate-200 pt-2 flex justify-between items-center">
+                                <span class="text-lg font-semibold text-slate-900">Total:</span>
+                                <span class="text-lg font-bold text-slate-900">₦215,000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Options -->
+                    <div>
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-300 rounded">
+                            <span class="text-sm font-medium text-slate-700">Send email notification to school</span>
+                        </label>
+                        <label class="flex items-center space-x-3 mt-2">
+                            <input type="checkbox" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-300 rounded">
+                            <span class="text-sm font-medium text-slate-700">Generate PDF copy</span>
+                        </label>
+                    </div>
+
+                    <!-- Modal Actions -->
+                    <div class="border-t border-slate-200 pt-6 flex items-center justify-end space-x-3">
+                        <button type="button" class="px-4 py-2 text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50">
+                            Cancel
+                        </button>
+                        <button type="button" class="px-4 py-2 text-slate-700 bg-slate-100 border border-slate-300 rounded-lg hover:bg-slate-200">
+                            Save Draft
+                        </button>
+                        <button type="submit" class="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium">
+                            Create & Send Invoice
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: Invoice Management Modal -->
+
+    <!-- @COMPONENT: Feature Toggle Component -->
+    <div id="featureToggleModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl">
+                <div class="px-6 py-4 border-b border-slate-200">
+                    <h3 class="text-xl font-semibold text-slate-900">Manage School Features</h3>
+                    <p class="text-slate-600 mt-1">Enable or disable features for Grace Academy</p>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Feature Toggle Items -->
+                        <div class="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-slate-900">CBT Module</h4>
+                                <p class="text-sm text-slate-500">Computer Based Testing</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked data-implementation="Toggle should call API and update optimistically">
+                                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-slate-900">E-Classroom</h4>
+                                <p class="text-sm text-slate-500">Virtual Learning Platform</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                            </label>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-slate-900">Attendance</h4>
+                                <p class="text-sm text-slate-500">Student Attendance Tracking</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                            </label>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-slate-900">Result Station</h4>
+                                <p class="text-sm text-slate-500">Result Management System</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t border-slate-200 flex justify-end space-x-3">
+                    <button class="px-4 py-2 text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50">Close</button>
+                    <button class="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: Feature Toggle Component -->
+
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        // Modal functionality (basic show/hide)
+        (function() {
+            const modals = {
+                createSchool: document.getElementById('createSchoolModal'),
+                invoice: document.getElementById('invoiceModal'),
+                featureToggle: document.getElementById('featureToggleModal')
+            };
+
+            // Show modal function
+            window.showModal = function(modalName) {
+                if (modals[modalName]) {
+                    modals[modalName].classList.remove('hidden');
+                }
+            };
+
+            // Hide modal function
+            window.hideModal = function(modalName) {
+                if (modals[modalName]) {
+                    modals[modalName].classList.add('hidden');
+                }
+            };
+
+            // Close modal on background click
+            Object.values(modals).forEach(modal => {
+                if (modal) {
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === modal) {
+                            modal.classList.add('hidden');
+                        }
+                    });
+                }
+            });
+
+            // Example event listeners (replace with proper implementation)
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-event*="openCreateSchoolModal"]')) {
+                    showModal('createSchool');
+                }
+                if (e.target.closest('[data-event*="closeModal"]')) {
+                    Object.values(modals).forEach(modal => {
+                        modal.classList.add('hidden');
+                    });
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
